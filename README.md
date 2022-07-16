@@ -4,7 +4,7 @@ A new Flutter project.
 
 ## Getting Started
 
-Create Class File on lib directory called env.dart
+Create class file on lib directory called env.dart
 
 Use this code:
 
