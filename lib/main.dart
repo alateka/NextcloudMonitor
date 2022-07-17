@@ -4,7 +4,6 @@ import 'package:alatekaap/env.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:http/http.dart' as http;
 import 'model/nextcloudata.dart';
-
 import 'package:flutter/material.dart';
 
 void main() => runApp(Phoenix(child: const AlatekaAPP()));
@@ -33,13 +32,14 @@ class MainWidget extends StatefulWidget {
 class _MainWidgetState extends State<MainWidget> {
   Env env = Env();
   NextcloudData nextcloudData = NextcloudData(
-    "version",
+    "Nextcloud Version",
     0,
     [0.0, 0.0, 0.0],
     0,
     0,
     0,
     0,
+    "PHP Version",
   );
   Future _getApiData() async {
     Uri prueba = Uri(
@@ -73,36 +73,52 @@ class _MainWidgetState extends State<MainWidget> {
             return Column(
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "Nextcloud Version ==> ${nextcloudData.version}",
-                    ),
-                    const Text("data"),
+                    TextButton(
+                      onPressed: (() => Phoenix.rebirth(context)),
+                      child: const Icon(Icons.refresh_rounded),
+                    )
                   ],
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
-                      "Nextcloud Version ==> ${nextcloudData.version}",
+                      "Nextcloud - ${nextcloudData.nextcloudVersion}",
                     ),
-                    const Text("data"),
+                    Text(
+                      "PHP - ${nextcloudData.phpVersion}",
+                    ),
                   ],
-                )
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      "Used RAM ( ${(nextcloudData.memTotal - nextcloudData.memFree) / 1024} MiB )",
+                    ),
+                    Text(
+                      "Total RAM ( ${nextcloudData.memTotal / 1024} MiB )",
+                    ),
+                  ],
+                ),
               ],
             );
           }
-          return const Text("Cargando...");
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: const [
+              Text(
+                "Cargando...",
+              )
+            ],
+          );
         },
       ),
     );
   }
 }
-
-//TextButton(
-//  onPressed: (() => Phoenix.rebirth(context)),
-//  child: const Text("Pulsar"),
-//)

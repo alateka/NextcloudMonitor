@@ -1,24 +1,25 @@
 class NextcloudData {
-  String version = '';
+  String nextcloudVersion = "";
   int freeSpace = 0;
   List cpuLoad = [0.0, 0.0, 0.0];
   int memTotal = 0;
   int memFree = 0;
   int swapTotal = 0;
   int swapFree = 0;
+  String phpVersion = "";
 
   NextcloudData(
-    this.version,
-    this.freeSpace,
-    this.cpuLoad,
-    this.memTotal,
-    this.memFree,
-    this.swapTotal,
-    this.swapFree,
-  );
+      this.nextcloudVersion,
+      this.freeSpace,
+      this.cpuLoad,
+      this.memTotal,
+      this.memFree,
+      this.swapTotal,
+      this.swapFree,
+      this.phpVersion);
 
-  setVersion(String version) {
-    this.version = version;
+  setVersion(String nextcloudVersion) {
+    this.nextcloudVersion = nextcloudVersion;
   }
 
   setFreeSpace(int freeSpace) {
@@ -45,6 +46,10 @@ class NextcloudData {
     this.swapFree = swapFree;
   }
 
+  setPhpVersion(String phpVersion) {
+    this.phpVersion = phpVersion;
+  }
+
   reloadData(var apiData) {
     setVersion(
       apiData["ocs"]["data"]["nextcloud"]["system"]["version"],
@@ -69,5 +74,6 @@ class NextcloudData {
       apiData["ocs"]["data"]["nextcloud"]["system"]["cpuload"][1],
       apiData["ocs"]["data"]["nextcloud"]["system"]["cpuload"][2],
     ]);
+    setPhpVersion(apiData["ocs"]["data"]["server"]["php"]["version"]);
   }
 }
