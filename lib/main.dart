@@ -41,7 +41,7 @@ class _MainWidgetState extends State<MainWidget> {
     0,
     0,
   );
-  Future _pruebaApi() async {
+  Future _getApiData() async {
     Uri prueba = Uri(
         scheme: "https",
         host: env.host,
@@ -65,23 +65,32 @@ class _MainWidgetState extends State<MainWidget> {
         title: const Text("Nextcloud Monitor"),
       ),
       body: FutureBuilder(
-        future: _pruebaApi(),
+        future: _getApiData(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var apiData = jsonDecode(snapshot.data.toString());
             nextcloudData.reloadData(apiData);
             return Column(
               children: [
-                Text(
-                  "Nextcloud Version ==> ${nextcloudData.version}",
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      "Nextcloud Version ==> ${nextcloudData.version}",
+                    ),
+                    const Text("data"),
+                  ],
                 ),
-                Text(
-                  nextcloudData.freeSpace.toString(),
-                ),
-                Text(nextcloudData.memFree.toString()),
-                TextButton(
-                  onPressed: (() => Phoenix.rebirth(context)),
-                  child: const Text("Pulsar"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      "Nextcloud Version ==> ${nextcloudData.version}",
+                    ),
+                    const Text("data"),
+                  ],
                 )
               ],
             );
@@ -92,3 +101,8 @@ class _MainWidgetState extends State<MainWidget> {
     );
   }
 }
+
+//TextButton(
+//  onPressed: (() => Phoenix.rebirth(context)),
+//  child: const Text("Pulsar"),
+//)
