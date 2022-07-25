@@ -70,55 +70,58 @@ class _MainWidgetState extends State<MainWidget> {
           if (snapshot.hasData) {
             var apiData = jsonDecode(snapshot.data.toString());
             nextcloudData.reloadData(apiData);
-            return Column(
+            return ListView(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      onPressed: (() => Phoenix.rebirth(context)),
-                      child: const Icon(Icons.refresh_rounded),
-                    )
-                  ],
+                Container(
+                  margin: const EdgeInsets.all(31.0),
+                  decoration: const BoxDecoration(
+                    color: Colors.greenAccent,
+                    shape: BoxShape.circle,
+                  ),
+                  child: TextButton(
+                    onPressed: (() => Phoenix.rebirth(context)),
+                    child: const Icon(Icons.refresh_rounded),
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Text(
-                      "Nextcloud - ${nextcloudData.nextcloudVersion}",
-                    ),
-                    Text(
-                      "PHP - ${nextcloudData.phpVersion}",
-                    ),
-                  ],
+                myContainer(
+                  "Nextcloud - ${nextcloudData.nextcloudVersion}",
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Text(
-                      "Used RAM ( ${(nextcloudData.memTotal - nextcloudData.memFree) / 1024} MiB )",
-                    ),
-                    Text(
-                      "Total RAM ( ${nextcloudData.memTotal / 1024} MiB )",
-                    ),
-                  ],
+                myContainer(
+                  "PHP - ${nextcloudData.phpVersion}",
+                ),
+                myContainer(
+                  "Used RAM ( ${(nextcloudData.memTotal - nextcloudData.memFree) / 1024} MiB )",
+                ),
+                myContainer(
+                  "Total RAM ( ${nextcloudData.memTotal / 1024} MiB )",
                 ),
               ],
             );
           }
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: const [
-              Text(
-                "Cargando...",
-              )
-            ],
+          return Container(
+            margin: const EdgeInsets.all(15.0),
+            alignment: Alignment.topCenter,
+            child: const Text("Cargando"),
           );
         },
       ),
+    );
+  }
+
+  Widget myContainer(String text) {
+    return Container(
+      padding: const EdgeInsets.all(15.0),
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 197, 253, 192),
+        border: Border.all(
+          color: Colors.greenAccent,
+          width: 7,
+        ),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      margin: const EdgeInsets.all(15.0),
+      alignment: Alignment.center,
+      child: Text(text),
     );
   }
 }
